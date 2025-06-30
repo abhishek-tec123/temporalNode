@@ -1,0 +1,32 @@
+# Core dependencies
+temporalio
+
+# FastAPI and server dependencies
+fastapi
+uvicorn
+pydantic
+
+# Document processing
+pdfplumber
+python-docx
+pandas
+
+# Web and data processing
+requests
+beautifulsoup4
+
+# LangChain and AI dependencies
+langchain
+chromadb
+huggingface-hub
+langchain-chroma
+langchain-huggingface
+tiktoken
+groq
+
+# MCP specific
+mcp
+python-dotenv
+
+# New dependencies
+httpx 

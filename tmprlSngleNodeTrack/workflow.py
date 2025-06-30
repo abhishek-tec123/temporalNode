@@ -1,0 +1,60 @@
+"""
+Workflow definition for single node execution with Temporal.
+"""
+from datetime import timedelta
+from temporalio import workflow
+from temporalio.common import RetryPolicy
+from activities import (
+    test_node,
+    start_call,
+    end_call,
+    email_sent,
+)
+
+activity_map = {
+    "test_node": test_node,
+    "startCall": start_call,
+    "emailSent": email_sent,
+    "endCall": end_call,
+}
+
+# Define a retry policy for all activities
+retry_policy = RetryPolicy(
+    initial_interval=timedelta(seconds=2),      # use timedelta
+    backoff_coefficient=2.0,                   # exponential backoff
+    maximum_interval=timedelta(seconds=10),    # use timedelta
+    maximum_attempts=3                         # total attempts (including the first)
+)
+
+@workflow.defn
+class SingleNodeWorkflow:
+    @workflow.run
+    async def run(self, node: dict) -> dict:
+        if not node:
+            return {"status": "error", "message": "Node not found"}
+        inputs = node.get("config", {}).get("properties", {})
+        if not any(str(v).strip() for v in inputs.values()):
+            return {"status": "no_input", "message": "No user input value for this node."}
+        node_type = node["type"]
+        activity_func = activity_map.get(node_type)
+        if not activity_func:
+            return {"status": "error", "message": f"No activity for node type {node_type}"}
+        context = {}
+        result = await workflow.execute_activity(
+            activity_func,
+            {"context": context, "inputs": inputs},
+            schedule_to_close_timeout=timedelta(seconds=10),
+            retry_policy=retry_policy,
+        )
+        if isinstance(result, dict) and result.get("status") in ["success", "started"]:
+            return {
+                "status": "success",
+                "message": "Activity completed successfully.",
+                "activity_result": result.get("message", "Success")
+            }
+        else:
+            return {
+                "status": "failed",
+                "message": "The operation could not be completed after several attempts. Please try again later.",
+                "result": None
+            }
