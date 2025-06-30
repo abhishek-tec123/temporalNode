@@ -9,12 +9,14 @@ from activities import (
     start_call,
     end_call,
     email_sent,
+    sms_sent,
 )
 
 activity_map = {
     "test_node": test_node,
     "startCall": start_call,
     "emailSent": email_sent,
+    "smsSent": sms_sent,
     "endCall": end_call,
 }
 

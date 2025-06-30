@@ -102,6 +102,31 @@
       },
       "createdAt": "2025-06-23T12:05:11.245Z",
       "updatedAt": "2025-06-23T12:05:11.245Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3991",
+      "uniqueId": "node_sms_1",
+      "type": "smsSent",
+      "label": "Send SMS",
+      "description": "Send an SMS message",
+      "icon": "/images/react-flow/nodes/sms.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "phone_number": "1234567890",
+          "message": "Hello from Temporal SMS!"
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": false,
+      "metaData": {
+        "position": {
+          "x": 130,
+          "y": 300
+        }
+      },
+      "createdAt": "2025-06-23T12:05:11.245Z",
+      "updatedAt": "2025-06-23T12:05:11.245Z"
     }
   ],
   "edges": [

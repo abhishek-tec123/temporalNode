@@ -93,3 +93,26 @@ async def email_sent(args: dict) -> dict:
     }
     logger.info(f"[email_sent] Result: {json.dumps(result, indent=4)}")
     return result
+
+@activity.defn
+async def sms_sent(args: dict) -> dict:
+    attempt = activity.info().attempt
+    context = args.get("context", {})
+    inputs = args.get("inputs", {})
+    logger.info(f"[sms_sent] Attempt: {attempt}")
+    if inputs.get("force_fail"):
+        raise Exception("Forced failure for retry test (sms_sent)")
+    phone_number = inputs.get("phone_number")
+    message = inputs.get("message")
+    if not phone_number or not message:
+        raise Exception("phone_number and message are required for sms_sent activity!")
+    activity.logger.info(f"Sending SMS to {phone_number} with message: {message}")
+    logger.info(f"[sms_sent] Start | context: {json.dumps(context, indent=4)}, inputs: {json.dumps(inputs, indent=4)}")
+    await asyncio.sleep(1)
+    result = {
+        "status": "success",
+        "message": f"SMS sent to {phone_number} with message: {message}",
+        "context": context
+    }
+    logger.info(f"[sms_sent] Result: {json.dumps(result, indent=4)}")
+    return result

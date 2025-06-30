@@ -25,6 +25,7 @@ async def main():
             activities.start_call,
             activities.end_call,
             activities.email_sent,
+            activities.sms_sent,
         ],
     )
 

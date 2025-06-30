@@ -1,7 +1,7 @@
 """
 API for running a single node workflow via Temporal and FastAPI.
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile, Form, Request
 import json
 from pydantic import BaseModel
 from llm import on_startup
@@ -13,9 +13,10 @@ from activities import (
     end_call,
     email_sent,
 )
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi import status
 import httpx
+import os
 
 app = FastAPI()
 
@@ -27,15 +28,35 @@ class NodeRequest(BaseModel):
     node_id: str
     inputs: dict = {}
 
-NODE_FLOW_URL = "http://localhost:3000/node_flow.json"
+NODE_FLOW_DATA = None
+
+@app.post("/upload_node_flow")
+async def upload_node_flow(request: Request):
+    global NODE_FLOW_DATA
+    # Only accept raw JSON
+    if not request.headers.get("content-type", "").startswith("application/json"):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={"message": "Only raw JSON body with Content-Type: application/json is supported."}
+        )
+    try:
+        NODE_FLOW_DATA = await request.json()
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={"message": f"Invalid JSON body: {str(e)}"}
+        )
+    return {"message": "Node flow uploaded successfully from raw JSON"}
 
 @app.post("/run_single_node")
 async def run_single_node(request: NodeRequest):
-    async with httpx.AsyncClient() as client:
-        response = await client.get(NODE_FLOW_URL)
-        response.raise_for_status()
-        flow = response.json()
-    node = next((n for n in flow["nodes"] if n["uniqueId"] == request.node_id), None)
+    global NODE_FLOW_DATA
+    if NODE_FLOW_DATA is None:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={"message": "Node flow data not uploaded. Please upload using /upload_node_flow first."}
+        )
+    node = next((n for n in NODE_FLOW_DATA["nodes"] if n["uniqueId"] == request.node_id), None)
     if not node:
         return {"message": "Node not found", "result": None}
 
@@ -81,3 +102,8 @@ async def health_check():
         dict: A simple message indicating the API is running
     """
     return {"status": "success", "message": "API is running"}
+
+@app.get("/node_flow.json")
+async def get_node_flow():
+    file_path = os.path.join(os.path.dirname(__file__), "node_flow.json")
+    return FileResponse(file_path, media_type="application/json")
