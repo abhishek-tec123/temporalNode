@@ -72,3 +72,12 @@ async def run_single_node(request: NodeRequest):
                 "message": "Try Again"
             }
         )
+
+@app.get("/status")
+async def health_check():
+    """
+    Health check endpoint to verify if the API is running.
+    Returns:
+        dict: A simple message indicating the API is running
+    """
+    return {"status": "success", "message": "API is running"}
