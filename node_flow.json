@@ -1,0 +1,164 @@
+{
+  "nodes": [
+    {
+      "_id": "685942f755f3929f8bed3980",
+      "uniqueId": "node_1750680218894",
+      "type": "startCall",
+      "label": "Start call",
+      "description": "Start call",
+      "icon": "/images/react-flow/nodes/start-call.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "title": "Start Call",
+          "description": "Initiate a new call session",
+          "caller": "8789977380"
+        }
+      },
+      "isStart_node": true,
+      "isEnd_node": false,
+      "metaData": {
+        "position": {
+          "x": 130,
+          "y": -200
+        }
+      },
+      "createdAt": "2025-06-23T12:05:11.245Z",
+      "updatedAt": "2025-06-23T12:05:11.245Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3990",
+      "uniqueId": "node_kb",
+      "type": "knowledge_base_call",
+      "label": "Knowledge Base",
+      "description": "Ask a question",
+      "icon": "/images/react-flow/nodes/knowledge-base.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "title": "Knowledge Base",
+          "description": "Ask a question",
+          "query": "hi"
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": false,
+      "metaData": {
+        "position": {
+          "x": 130,
+          "y": -100
+        }
+      },
+      "createdAt": "2025-06-23T12:05:11.245Z",
+      "updatedAt": "2025-06-23T12:05:11.245Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3981",
+      "uniqueId": "node_1750680244526",
+      "type": "emailSent",
+      "label": "Email sent",
+      "description": "Email sent",
+      "icon": "/images/react-flow/nodes/mail-out.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "title": "Send Email",
+          "description": "Send an email to the recipient",
+          "recipient": "example@example.com"
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": false,
+      "metaData": {
+        "position": {
+          "x": 130,
+          "y": 0
+        }
+      },
+      "createdAt": "2025-06-23T12:05:11.245Z",
+      "updatedAt": "2025-06-23T12:05:11.245Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3982",
+      "uniqueId": "node_1750680286033",
+      "type": "endCall",
+      "label": "End call",
+      "description": "End call",
+      "icon": "/images/react-flow/nodes/end-call.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "title": "End Call",
+          "description": "Terminate the ongoing call"
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": true,
+      "metaData": {
+        "position": {
+          "x": 130,
+          "y": 200
+        }
+      },
+      "createdAt": "2025-06-23T12:05:11.245Z",
+      "updatedAt": "2025-06-23T12:05:11.245Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3991",
+      "uniqueId": "node_sms_1",
+      "type": "smsSent",
+      "label": "Send SMS",
+      "description": "Send an SMS message",
+      "icon": "/images/react-flow/nodes/sms.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "phone_number": "1234567890",
+          "message": "Hello from Temporal SMS!"
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": false,
+      "metaData": {
+        "position": {
+          "x": 130,
+          "y": 300
+        }
+      },
+      "createdAt": "2025-06-23T12:05:11.245Z",
+      "updatedAt": "2025-06-23T12:05:11.245Z"
+    }
+  ],
+  "edges": [
+    {
+      "_id": "685942f755f3929f8bed3994",
+      "uniqueId": "edge_kb_1",
+      "source_nodeId": "node_1750680218894",
+      "target_nodeId": "node_kb",
+      "name": "",
+      "description": "",
+      "createdAt": "2025-06-23T12:05:11.252Z",
+      "updatedAt": "2025-06-23T12:05:11.252Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3995",
+      "uniqueId": "edge_kb_2",
+      "source_nodeId": "node_kb",
+      "target_nodeId": "node_1750680244526",
+      "name": "",
+      "description": "",
+      "createdAt": "2025-06-23T12:05:11.252Z",
+      "updatedAt": "2025-06-23T12:05:11.252Z"
+    },
+    {
+      "_id": "685942f755f3929f8bed3985",
+      "uniqueId": "edge_1750680307098",
+      "source_nodeId": "node_1750680244526",
+      "target_nodeId": "node_1750680286033",
+      "name": "",
+      "description": "",
+      "createdAt": "2025-06-23T12:05:11.253Z",
+      "updatedAt": "2025-06-23T12:05:11.253Z"
+    }
+  ]
+}
