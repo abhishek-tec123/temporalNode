@@ -1,10 +1,9 @@
 """
 API for running a single node workflow via Temporal and FastAPI.
 """
-from fastapi import FastAPI, File, UploadFile, Form, Request
+from fastapi import APIRouter, File, UploadFile, Form, Request
 import json
 from pydantic import BaseModel
-from llm import on_startup
 from temporalio.client import Client
 from workflow import SingleNodeWorkflow
 from activities import (
@@ -18,11 +17,8 @@ from fastapi import status
 import httpx
 import os
 
-app = FastAPI()
+router = APIRouter()
 
-@app.on_event("startup")
-async def startup_event():
-    on_startup()
 
 class NodeRequest(BaseModel):
     node_id: str
@@ -30,7 +26,7 @@ class NodeRequest(BaseModel):
 
 NODE_FLOW_DATA = None
 
-@app.post("/upload_node_flow")
+@router.post("/upload_node_flow")
 async def upload_node_flow(request: Request):
     global NODE_FLOW_DATA
     # Only accept raw JSON
@@ -48,7 +44,7 @@ async def upload_node_flow(request: Request):
         )
     return {"message": "Node flow uploaded successfully from raw JSON"}
 
-@app.post("/run_single_node")
+@router.post("/run_single_node")
 async def run_single_node(request: NodeRequest):
     global NODE_FLOW_DATA
     if NODE_FLOW_DATA is None:
@@ -94,7 +90,7 @@ async def run_single_node(request: NodeRequest):
             }
         )
 
-@app.get("/status")
+@router.get("/status")
 async def health_check():
     """
     Health check endpoint to verify if the API is running.
@@ -103,7 +99,7 @@ async def health_check():
     """
     return {"status": "success", "message": "API is running"}
 
-@app.get("/node_flow.json")
+@router.get("/node_flow.json")
 async def get_node_flow():
     file_path = os.path.join(os.path.dirname(__file__), "node_flow.json")
     return FileResponse(file_path, media_type="application/json")

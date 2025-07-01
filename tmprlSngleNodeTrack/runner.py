@@ -5,14 +5,9 @@ import subprocess
 import time
 import sys
 from worker import main as worker_main
-from api import app
+from run_temporal_client import app
+from utils import start_temporal_server
 
-
-def start_temporal_server():
-    # Start Temporal server in dev mode as a subprocess
-    return subprocess.Popen([
-        "temporal", "server", "start-dev"
-    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def start_worker():
     asyncio.run(worker_main())
