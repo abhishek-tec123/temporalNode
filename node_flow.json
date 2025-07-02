@@ -148,6 +148,30 @@
       "isDelete": false,
       "createdAt": "2025-07-02T05:58:42.693Z",
       "updatedAt": "2025-07-02T05:58:42.693Z"
+    },
+    {
+      "uniqueId": "node_http",
+      "type": "http",
+      "label": "http connectivity",
+      "description": "http connectivity",
+      "icon": "/images/react-flow/nodes/api-icon.svg",
+      "config": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "status": "ok",
+            "data": {
+              "foo": "bar"
+            }
+          }
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": false,
+      "metaData": {},
+      "isDelete": false,
+      "createdAt": "2025-07-01T13:26:25.856Z",
+      "updatedAt": "2025-07-02T05:58:42.579Z"
     }
   ]
 }

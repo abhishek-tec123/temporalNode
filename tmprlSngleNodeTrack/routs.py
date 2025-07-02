@@ -7,7 +7,6 @@ from pydantic import BaseModel
 from temporalio.client import Client
 from workflow import SingleNodeWorkflow
 from activities import (
-    test_node,
     start_call,
     end_call,
     email_sent,

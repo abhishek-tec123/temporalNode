@@ -1,6 +1,3 @@
-"""
-Activity implementations for Temporal workflows.
-"""
 import asyncio
 from temporalio import activity
 import logging
@@ -8,24 +5,24 @@ import json
 
 logger = logging.getLogger(__name__)
 
-@activity.defn
-async def test_node(args: dict) -> dict:
-    attempt = activity.info().attempt
-    context = args.get("context", {})
-    inputs = args.get("inputs", {})
-    logger.info(f"[test_node] Attempt: {attempt}")
-    if inputs.get("force_fail"):
-        raise Exception("Forced failure for retry test (test_node)")
-    activity.logger.info("Running test node checks...")
-    logger.info(f"[test_node] Start | context: {json.dumps(context, indent=4)}, inputs: {json.dumps(inputs, indent=4)}")
-    await asyncio.sleep(1)
-    result = {
-        "status": "success",
-        "message": "Test node completed.",
-        "context": context
-    }
-    logger.info(f"[test_node] Result: {json.dumps(result, indent=4)}")
-    return result
+# @activity.defn
+# async def test_node(args: dict) -> dict:
+#     attempt = activity.info().attempt
+#     context = args.get("context", {})
+#     inputs = args.get("inputs", {})
+#     logger.info(f"[test_node] Attempt: {attempt}")
+#     if inputs.get("force_fail"):
+#         raise Exception("Forced failure for retry test (test_node)")
+#     activity.logger.info("Running test node checks...")
+#     logger.info(f"[test_node] Start | context: {json.dumps(context, indent=4)}, inputs: {json.dumps(inputs, indent=4)}")
+#     await asyncio.sleep(1)
+#     result = {
+#         "status": "success",
+#         "message": "Test node completed.",
+#         "context": context
+#     }
+#     logger.info(f"[test_node] Result: {json.dumps(result, indent=4)}")
+#     return result
 
 @activity.defn
 async def start_call(args: dict) -> dict:
@@ -199,3 +196,31 @@ async def api_connectivity(args: dict) -> dict:
     logger.info(f"[api_connectivity] Start | context: {json.dumps(context, indent=4)}, inputs: {json.dumps(inputs, indent=4)}")
     await asyncio.sleep(1)
     return {"response": api_response}
+
+@activity.defn
+async def http_connectivity(args: dict) -> dict:
+    attempt = activity.info().attempt
+    context = args.get("context", {})
+    inputs = args.get("inputs", {})
+    logger.info(f"[http_connectivity] Attempt: {attempt}")
+    http_response = inputs.get("http_response")
+    if http_response is None:
+        raise Exception("A 'http_response' input is required for http_connectivity activity!")
+    activity.logger.info(f"HTTP Connectivity node received response: {http_response}")
+    logger.info(f"[http_connectivity] Start | context: {json.dumps(context, indent=4)}, inputs: {json.dumps(inputs, indent=4)}")
+    await asyncio.sleep(1)
+    return {"response": http_response}
+
+@activity.defn
+async def webhook_connectivity(args: dict) -> dict:
+    attempt = activity.info().attempt
+    context = args.get("context", {})
+    inputs = args.get("inputs", {})
+    logger.info(f"[webhook_connectivity] Attempt: {attempt}")
+    webhook_response = inputs.get("webhook_response")
+    if webhook_response is None:
+        raise Exception("A 'webhook_response' input is required for webhook_connectivity activity!")
+    activity.logger.info(f"Webhook Connectivity node received response: {webhook_response}")
+    logger.info(f"[webhook_connectivity] Start | context: {json.dumps(context, indent=4)}, inputs: {json.dumps(inputs, indent=4)}")
+    await asyncio.sleep(1)
+    return {"response": webhook_response}

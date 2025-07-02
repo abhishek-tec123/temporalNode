@@ -21,7 +21,6 @@ async def main():
         task_queue="call-flow-queue",
         workflows=[SingleNodeWorkflow],
         activities=[
-            activities.test_node,
             activities.start_call,
             activities.end_call,
             activities.email_sent,
@@ -30,6 +29,8 @@ async def main():
             activities.schedule_meeting,
             activities.waiting_for_response,
             activities.api_connectivity,
+            activities.http_connectivity,
+            activities.webhook_connectivity,
         ],
     )
 

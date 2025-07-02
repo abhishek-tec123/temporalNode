@@ -5,7 +5,6 @@ from datetime import timedelta
 from temporalio import workflow
 from temporalio.common import RetryPolicy
 from activities import (
-    test_node,
     start_call,
     end_call,
     email_sent,
@@ -14,10 +13,11 @@ from activities import (
     schedule_meeting,
     waiting_for_response,
     api_connectivity,
+    http_connectivity,
+    webhook_connectivity,
 )
 
 activity_map = {
-    "test_node": test_node,
     "startCall": start_call,
     "emailSent": email_sent,
     "smsSent": sms_sent,
@@ -26,6 +26,8 @@ activity_map = {
     "scheduleMeeting": schedule_meeting,
     "waitingforResponse": waiting_for_response,
     "apiConnectivity": api_connectivity,
+    "http": http_connectivity,
+    "webhook": webhook_connectivity,
 }
 
 # Define a retry policy for all activities
@@ -62,11 +64,11 @@ class SingleNodeWorkflow:
                 "message": "Activity completed successfully.",
                 "activity_result": result.get("message", "Success")
             }
-        # Special handling for apiConnectivity: treat as success if 'response' key exists
-        if node_type == "apiConnectivity" and isinstance(result, dict) and "response" in result:
+        # Special handling for apiConnectivity, http, and webhook: treat as success if 'response' key exists
+        if node_type in ["apiConnectivity", "http", "webhook"] and isinstance(result, dict) and "response" in result:
             return {
                 "status": "success",
-                "message": "API connectivity response.",
+                "message": f"{node_type} response.",
                 "activity_result": result["response"]
             }
         else:
