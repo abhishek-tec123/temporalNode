@@ -26,6 +26,10 @@ async def main():
             activities.end_call,
             activities.email_sent,
             activities.sms_sent,
+            activities.knowledge_base_call,
+            activities.schedule_meeting,
+            activities.waiting_for_response,
+            activities.api_connectivity,
         ],
     )
 

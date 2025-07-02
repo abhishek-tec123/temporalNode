@@ -127,38 +127,27 @@
       },
       "createdAt": "2025-06-23T12:05:11.245Z",
       "updatedAt": "2025-06-23T12:05:11.245Z"
-    }
-  ],
-  "edges": [
-    {
-      "_id": "685942f755f3929f8bed3994",
-      "uniqueId": "edge_kb_1",
-      "source_nodeId": "node_1750680218894",
-      "target_nodeId": "node_kb",
-      "name": "",
-      "description": "",
-      "createdAt": "2025-06-23T12:05:11.252Z",
-      "updatedAt": "2025-06-23T12:05:11.252Z"
     },
     {
-      "_id": "685942f755f3929f8bed3995",
-      "uniqueId": "edge_kb_2",
-      "source_nodeId": "node_kb",
-      "target_nodeId": "node_1750680244526",
-      "name": "",
-      "description": "",
-      "createdAt": "2025-06-23T12:05:11.252Z",
-      "updatedAt": "2025-06-23T12:05:11.252Z"
-    },
-    {
-      "_id": "685942f755f3929f8bed3985",
-      "uniqueId": "edge_1750680307098",
-      "source_nodeId": "node_1750680244526",
-      "target_nodeId": "node_1750680286033",
-      "name": "",
-      "description": "",
-      "createdAt": "2025-06-23T12:05:11.253Z",
-      "updatedAt": "2025-06-23T12:05:11.253Z"
+      "uniqueId": "node_1751435871034",
+      "type": "scheduleMeeting",
+      "label": "Schedule meeting",
+      "description": "Schedule meeting",
+      "icon": "/images/react-flow/nodes/calendar-plus.svg",
+      "config": {
+        "properties": {
+          "email": "user@example.com",
+          "date": "2025-07-02",
+          "time": "10:00",
+          "summary": "Project kickoff meeting"
+        }
+      },
+      "isStart_node": false,
+      "isEnd_node": false,
+      "metaData": {},
+      "isDelete": false,
+      "createdAt": "2025-07-02T05:58:42.693Z",
+      "updatedAt": "2025-07-02T05:58:42.693Z"
     }
   ]
 }

@@ -10,6 +10,10 @@ from activities import (
     end_call,
     email_sent,
     sms_sent,
+    knowledge_base_call,
+    schedule_meeting,
+    waiting_for_response,
+    api_connectivity,
 )
 
 activity_map = {
@@ -18,6 +22,10 @@ activity_map = {
     "emailSent": email_sent,
     "smsSent": sms_sent,
     "endCall": end_call,
+    "knowledgeBaseCall": knowledge_base_call,
+    "scheduleMeeting": schedule_meeting,
+    "waitingforResponse": waiting_for_response,
+    "apiConnectivity": api_connectivity,
 }
 
 # Define a retry policy for all activities
@@ -53,6 +61,13 @@ class SingleNodeWorkflow:
                 "status": "success",
                 "message": "Activity completed successfully.",
                 "activity_result": result.get("message", "Success")
+            }
+        # Special handling for apiConnectivity: treat as success if 'response' key exists
+        if node_type == "apiConnectivity" and isinstance(result, dict) and "response" in result:
+            return {
+                "status": "success",
+                "message": "API connectivity response.",
+                "activity_result": result["response"]
             }
         else:
             return {
